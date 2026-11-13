@@ -1,0 +1,17 @@
+00:00 +0: loading test/balance_cubit_test.dart
+00:00 +0: test/balance_cubit_test.dart: Éxito emite carga y resultado
+00:00 +1: test/balance_cubit_test.dart: Una excepción emite carga y fallo
+00:00 +2: test/balance_cubit_test.dart: Reintentar vuelve al repositorio y recupera el saldo
+00:00 +3: test/balance_cubit_test.dart: Se ignora una segunda carga y un resultado posterior al cierre
+00:00 +4: test/theme_test.dart: Un valor ausente o corrupto inicia en sistema
+00:00 +5: test/theme_test.dart: La preferencia guarda y recupera el modo
+00:00 +6: test/theme_test.dart: El Cubit recorre el ciclo y persiste cada cambio
+00:00 +7: test/theme_test.dart: El primary se deriva de la semilla en claro y oscuro
+00:00 +8: test/wallet_widget_test.dart: La carga termina con saldo, totales y movimientos
+00:00 +9: test/wallet_widget_test.dart: La carga termina con saldo, totales y movimientos
+00:00 +10: test/wallet_widget_test.dart: La carga termina con saldo, totales y movimientos
+00:00 +11: test/wallet_widget_test.dart: La carga termina con saldo, totales y movimientos
+00:01 +12: test/wallet_widget_test.dart: El ojo enmascara los importes y los restaura sin recargar
+00:02 +13: test/wallet_widget_test.dart: El selector aplica el color y marca la opción en ambos modos
+00:03 +14: test/wallet_widget_test.dart: Reintentar desde el error recupera los movimientos
+00:04 +15: All tests passed!

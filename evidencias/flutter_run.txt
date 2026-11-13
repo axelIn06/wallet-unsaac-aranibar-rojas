@@ -1,0 +1,12 @@
+Extracto de la ejecución final en Medium Phone API 36.1.
+Comando: flutter run --no-resident --no-pub -d emulator-5554
+
+Launching lib/main.dart on sdk gphone64 arm64 in debug mode...
+Running Gradle task 'assembleDebug'...                             45.7s
+✓ Built build/app/outputs/flutter-apk/app-debug.apk
+Installing build/app/outputs/flutter-apk/app-debug.apk...          12.2s
+D/FlutterJNI( 4427): flutter (null) was loaded normally!
+Syncing files to device sdk gphone64 arm64...                      318ms
+
+Confirmación de la actividad en primer plano (adb shell dumpsys activity activities):
+    topResumedActivity=ActivityRecord{125629219 u0 pe.edu.unsaac.wallet_unsaac/.MainActivity t8}
