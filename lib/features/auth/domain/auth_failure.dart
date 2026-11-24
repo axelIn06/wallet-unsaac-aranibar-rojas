@@ -9,6 +9,7 @@ enum AuthFailureReason {
   provider('El proveedor de acceso no está habilitado.'),
   invalidName('Escribe un nombre para mostrar.'),
   unknown('No se pudo completar la operación.');
+
   const AuthFailureReason(this.message);
   final String message;
 }
