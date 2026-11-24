@@ -49,3 +49,5 @@ google-services.json
 key.properties
 *.jks
 *.keystore
+serviceAccountKey.json
+*-firebase-adminsdk-*.json

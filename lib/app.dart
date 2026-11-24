@@ -7,7 +7,8 @@ import 'core/theme/theme_cubit.dart';
 import 'core/theme/theme_preferences.dart';
 import 'core/theme/theme_state.dart';
 import 'features/wallet/domain/repositories/wallet_repository.dart';
-import 'features/wallet/presentation/cubits/balance_cubit.dart';
+import 'features/wallet/presentation/bloc/movements_bloc.dart';
+import 'features/wallet/presentation/bloc/movements_event.dart';
 import 'features/wallet/presentation/cubits/privacy_cubit.dart';
 import 'features/wallet/presentation/pages/wallet_home_page.dart';
 
@@ -35,7 +36,7 @@ class WalletApp extends StatelessWidget {
             BlocProvider(create: (_) => PrivacyCubit()),
             BlocProvider(
               create: (context) =>
-                  BalanceCubit(context.read<WalletRepository>())..load(),
+                  MovementsBloc(context.read<WalletRepository>())..add(const MovementsStarted()),
             ),
           ],
           child: BlocBuilder<ThemeCubit, ThemeState>(

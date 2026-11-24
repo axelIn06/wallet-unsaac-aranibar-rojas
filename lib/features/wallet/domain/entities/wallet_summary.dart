@@ -1,6 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'movement.dart';
 
-class WalletSummary {
+class WalletSummary extends Equatable {
+  @override
+  List<Object> get props => [movements];
   WalletSummary(Iterable<Movement> movements)
     : movements = List.unmodifiable(movements);
 

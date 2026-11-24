@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wallet_unsaac/features/wallet/domain/entities/wallet_summary.dart';
-import 'package:wallet_unsaac/features/wallet/domain/repositories/wallet_repository.dart';
+import 'package:wallet_unsaac/features/wallet/data/repositories/in_memory_wallet_repository.dart';
 import 'package:wallet_unsaac/features/wallet/presentation/cubits/balance_cubit.dart';
 import 'package:wallet_unsaac/features/wallet/presentation/cubits/balance_state.dart';
 
-class _ScriptedRepository implements WalletRepository {
+class _ScriptedRepository extends InMemoryWalletRepository {
   _ScriptedRepository(this.responses);
 
   final List<Future<WalletSummary> Function()> responses;
