@@ -1,3 +1,4 @@
+import '../../domain/entities/wallet_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -39,6 +40,7 @@ class WalletHomePage extends StatelessWidget {
       ],
     ),
     body: SafeArea(child: BlocConsumer<MovementsBloc, MovementsState>(
+      buildWhen: (before,after) => before.content == null || after.content == null,
       listenWhen: (previous,current) => current is MovementsFailure && current != previous,
       listener: (context,state) {
         final failure = state as MovementsFailure;
@@ -49,28 +51,30 @@ class WalletHomePage extends StatelessWidget {
       },
       builder: (context, state) => switch(state) {
         MovementsInitial() || MovementsLoading() => const Center(child: CircularProgressIndicator()),
-        MovementsFailure(previous: final previous?) => _WalletContent(state: previous, firebaseStatus: firebaseStatus),
+        MovementsFailure(previous: MovementsReady()) => _WalletContent(firebaseStatus: firebaseStatus),
         MovementsFailure(:final message) => Center(child: Column(mainAxisSize: MainAxisSize.min,
           children: [Text(message), TextButton(onPressed: () => context.read<MovementsBloc>().add(const MovementsStarted()),
           child: const Text('Reintentar'))])),
-        MovementsReady() => _WalletContent(state: state, firebaseStatus: firebaseStatus),
+        MovementsReady() => _WalletContent(firebaseStatus: firebaseStatus),
       },
     )),
   );
 }
 
 class _WalletContent extends StatelessWidget {
-  const _WalletContent({required this.state, required this.firebaseStatus});
-  final MovementsReady state;
+  const _WalletContent({required this.firebaseStatus});
+
   final FirebaseStatus firebaseStatus;
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<MovementsBloc>();
     final hide = context.select((PrivacyCubit cubit) => cubit.state.hideBalance);
-    final summary = state.summary;
+
     return ListView(padding: const EdgeInsets.fromLTRB(12,4,12,20), children: [
-      BalanceCard(summary: summary, hideBalance: hide, onToggle: context.read<PrivacyCubit>().toggle),
-      if (state.isSaving) const LinearProgressIndicator(semanticsLabel:'Guardando'),
+      BlocSelector<MovementsBloc,MovementsState,WalletSummary?>(selector: (s) => s.content?.summary,
+        builder:(context,summary) => summary == null ? const SizedBox.shrink() :
+        BalanceCard(summary:summary, hideBalance:hide,onToggle:context.read<PrivacyCubit>().toggle)),
+      BlocSelector<MovementsBloc,MovementsState,bool>(selector:(s)=>s.content?.isSaving ?? false, builder:(_,saving)=>saving ? const LinearProgressIndicator(semanticsLabel:'Guardando') : const SizedBox.shrink()),
       Wrap(alignment: WrapAlignment.spaceBetween, children: [
         for (final type in MovementType.values)
           TextButton.icon(icon: Icon(type == MovementType.income ? Icons.add : Icons.remove),
@@ -88,14 +92,28 @@ class _WalletContent extends StatelessWidget {
             if (confirmed == true && !bloc.isClosed) bloc.add(const MovementsCleared());
           }),
       ]),
-      Text('Movimientos · ${summary.movements.length}'),
-      for (final movement in summary.movements)
+      BlocSelector<MovementsBloc,MovementsState,MovementsReady?>(
+        selector:(s)=>s.content?.copyWith(isSaving:false),
+        builder:(context, ready) {
+          if(ready == null) return const SizedBox.shrink();
+          final items = ready.visibleMovements;
+          return Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
+          SegmentedButton<MovementFilter>(showSelectedIcon:false, segments: const [
+            ButtonSegment(value:MovementFilter.all,label:Text('Todos')),
+            ButtonSegment(value:MovementFilter.income,label:Text('Ingresos')),
+            ButtonSegment(value:MovementFilter.expense,label:Text('Egresos')),
+          ],selected:{ready.filter},onSelectionChanged:(selected)=>bloc.add(MovementsFilterChanged(selected.single))),
+          const SizedBox(height:8),
+          Text('Movimientos · ${items.length}'),
+          if(items.isEmpty) const Padding(padding:EdgeInsets.all(16),child:Text('Sin movimientos para mostrar.')),
+      for (final movement in items)
         MovementTile(movement: movement, hideAmount: hide,
           onDelete: () => bloc.add(MovementRemoved(movement.id)),
           onEdit: () async {
             final edited = await showDialog<Movement>(context: context, builder: (_) => MovementEditor(movement));
             if (edited != null && !bloc.isClosed) bloc.add(MovementUpdated(edited));
           }),
+      ]);}),
       FirebaseStatusCard(status: firebaseStatus),
     ]);
   }

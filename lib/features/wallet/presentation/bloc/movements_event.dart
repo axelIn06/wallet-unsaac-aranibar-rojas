@@ -1,3 +1,4 @@
+import 'movements_state.dart';
 import 'package:equatable/equatable.dart';
 import '../../domain/entities/movement.dart';
 
@@ -36,3 +37,10 @@ final class MovementUpdated extends MovementsEvent {
   List<Object> get props => [movement];
 }
 
+
+final class MovementsFilterChanged extends MovementsEvent {
+  const MovementsFilterChanged(this.filter);
+  final MovementFilter filter;
+  @override
+  List<Object> get props => [filter];
+}
