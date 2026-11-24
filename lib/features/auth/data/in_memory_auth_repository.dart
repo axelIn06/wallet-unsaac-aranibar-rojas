@@ -40,5 +40,16 @@ class InMemoryAuthRepository implements AuthRepository {
     // Simulación en memoria: devuelve la misma respuesta para cualquier cuenta.
   }
   @override
+  Future<AuthUser> updateDisplayName(String name) async {
+    final user=currentUser;
+    if(user==null)throw const AuthException(AuthFailureReason.invalidCredentials);
+    final trimmed=name.trim();
+    if(trimmed.isEmpty)throw const AuthException(AuthFailureReason.invalidName);
+    final updated=AuthUser(user.uid,user.email,trimmed);
+    _accounts[user.email]=(user:updated,password:_accounts[user.email]!.password);
+    _setUser(updated);
+    return updated;
+  }
+  @override
   Future<void> signOut() async => _setUser(null);
 }

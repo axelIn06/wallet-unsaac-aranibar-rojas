@@ -20,6 +20,10 @@ final class AuthPasswordResetRequested extends AuthEvent {
   final String email;
   static const confirmation='Si el correo está registrado, recibirás instrucciones para recuperar tu contraseña.';
 }
+final class AuthNameRequested extends AuthEvent {
+  const AuthNameRequested(this.name);
+  final String name;
+}
 final class AuthLogoutRequested extends AuthEvent {const AuthLogoutRequested();}
 sealed class AuthState extends Equatable {
   const AuthState();
@@ -54,6 +58,17 @@ class AuthBloc extends Bloc<AuthEvent,AuthState> {
     on<AuthLoginRequested>((e,emit)=>_run(emit,() => repository.signIn(e.email,e.password)));
     on<AuthRegisterRequested>((e,emit)=>_run(emit,()=>repository.register(e.email,e.password)));
     on<AuthPasswordResetRequested>((e,emit)=>_run(emit,()=>repository.sendPasswordResetEmail(e.email),success:AuthPasswordResetRequested.confirmation));
+    on<AuthNameRequested>((e,emit) async {
+      if(_busy)return;
+      _busy=true;
+      emit(const AuthLoading());
+      try {
+        final updated=await repository.updateDisplayName(e.name);
+        if(!emit.isDone && repository.currentUser?.uid==updated.uid)emit(AuthAuthenticated(updated));
+      } on AuthException catch(e){if(!emit.isDone)emit(_result(e.reason.message));}
+      catch(_){if(!emit.isDone)emit(_result(AuthFailureReason.unknown.message));}
+      finally{_busy=false;}
+    });
     on<AuthLogoutRequested>((_,emit)=>_run(emit,repository.signOut));
   }
   final AuthRepository repository;

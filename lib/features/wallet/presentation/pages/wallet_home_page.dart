@@ -1,3 +1,5 @@
+import '../../../auth/domain/auth_user.dart';
+import '../../../auth/presentation/account_menu.dart';
 import '../../domain/entities/wallet_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,15 +20,17 @@ import '../widgets/movement_tile.dart';
 import '../widgets/seed_color_sheet.dart';
 
 class WalletHomePage extends StatelessWidget {
-  const WalletHomePage({super.key, required this.firebaseStatus});
+  const WalletHomePage({super.key, required this.firebaseStatus,required this.user});
 
+  final AuthUser user;
   final FirebaseStatus firebaseStatus;
 
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
-      title: const Text('Wallet UNSAAC'),
+      title:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[const Text('Wallet UNSAAC'), Text(user.label, maxLines:1,overflow:TextOverflow.ellipsis,style:Theme.of(context).textTheme.bodySmall)]),
       actions: [
+        AccountMenu(user),
         const _ThemeModeButton(),
         IconButton(
           tooltip: 'Elegir color del tema',

@@ -50,7 +50,7 @@ class WalletApp extends StatelessWidget {
                 child:MultiBlocProvider(providers:[
                   BlocProvider(create: (_) => PrivacyCubit()),
                   BlocProvider(create:(ctx)=>MovementsBloc(ctx.read<WalletRepository>())..add(const MovementsStarted())),
-                ],child:WalletHomePage(firebaseStatus: firebaseStatus)))),
+                ],child:WalletHomePage(firebaseStatus: firebaseStatus,user:user)))),
             ),
           ),
         ),

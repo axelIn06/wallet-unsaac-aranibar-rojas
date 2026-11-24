@@ -39,5 +39,13 @@ class FirebaseAuthRepository implements AuthRepository {
     }
   }
   @override
+  Future<AuthUser> updateDisplayName(String name) => _call(() async {
+    final user=auth.currentUser;
+    if(user==null)throw const AuthException(AuthFailureReason.invalidCredentials);
+    if(name.trim().isEmpty)throw const AuthException(AuthFailureReason.invalidName);
+    await user.updateDisplayName(name.trim());
+    return AuthUser(user.uid,user.email ?? '',name.trim());
+  });
+  @override
   Future<void> signOut() => _call(auth.signOut);
 }
