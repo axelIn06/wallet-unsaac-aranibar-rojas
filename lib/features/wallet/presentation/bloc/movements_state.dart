@@ -17,8 +17,9 @@ final class MovementsReady extends MovementsState {
   List<Object?> get props => [summary, isSaving];
 }
 final class MovementsFailure extends MovementsState {
-  const MovementsFailure(this.message);
+  const MovementsFailure(this.message, [this.previous]);
+  final MovementsReady? previous;
   final String message;
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [message, previous];
 }

@@ -33,7 +33,7 @@ class MovementsBloc extends Bloc<MovementsEvent, MovementsState> {
       final summary = await action();
       if (!emit.isDone) emit(MovementsReady(summary));
     } catch (_) {
-      if (!emit.isDone) emit(MovementsFailure('No se pudo $operation.'));
+      if (!emit.isDone) emit(MovementsFailure('No se pudo $operation.', previous is MovementsReady ? previous.copyWith(isSaving:false) : null));
     }
   }
 }

@@ -105,7 +105,8 @@ void main() {
     final repository = _CountingRepository(failFirstLoad: true);
     await _open(tester, repository);
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Reintentar'));
+    expect(find.byType(SnackBar), findsOneWidget);
+    await tester.tap(find.widgetWithText(SnackBarAction, 'Reintentar'));
     await tester.pump();
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
     await tester.pumpAndSettle();

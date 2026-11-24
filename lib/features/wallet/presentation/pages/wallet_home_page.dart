@@ -10,7 +10,7 @@ import '../../domain/entities/movement.dart';
 import 'movement_editor.dart';
 import '../bloc/movements_state.dart';
 import '../cubits/privacy_cubit.dart';
-import '../cubits/privacy_state.dart';
+
 import '../widgets/balance_card.dart';
 import '../widgets/firebase_status_card.dart';
 import '../widgets/movement_tile.dart';
@@ -38,9 +38,18 @@ class WalletHomePage extends StatelessWidget {
         ),
       ],
     ),
-    body: SafeArea(child: BlocBuilder<MovementsBloc, MovementsState>(
+    body: SafeArea(child: BlocConsumer<MovementsBloc, MovementsState>(
+      listenWhen: (previous,current) => current is MovementsFailure && current != previous,
+      listener: (context,state) {
+        final failure = state as MovementsFailure;
+        final messenger = ScaffoldMessenger.of(context);
+        messenger.hideCurrentSnackBar();
+        messenger.showSnackBar(SnackBar(content: Text(failure.message), action: SnackBarAction(
+          label: 'Reintentar', onPressed: () => context.read<MovementsBloc>().add(const MovementsStarted()))));
+      },
       builder: (context, state) => switch(state) {
         MovementsInitial() || MovementsLoading() => const Center(child: CircularProgressIndicator()),
+        MovementsFailure(previous: final previous?) => _WalletContent(state: previous, firebaseStatus: firebaseStatus),
         MovementsFailure(:final message) => Center(child: Column(mainAxisSize: MainAxisSize.min,
           children: [Text(message), TextButton(onPressed: () => context.read<MovementsBloc>().add(const MovementsStarted()),
           child: const Text('Reintentar'))])),
