@@ -3,8 +3,11 @@ import '../domain/auth_failure.dart';
 import '../domain/auth_repository.dart';
 import '../domain/auth_user.dart';
 
-AuthFailureReason mapAuthCode(String code) => switch(code) {
-  'invalid-credential' || 'invalid-login-credentials' || 'wrong-password' || 'user-not-found' => AuthFailureReason.invalidCredentials,
+AuthFailureReason mapAuthCode(String code) => switch (code) {
+  'invalid-credential' ||
+  'invalid-login-credentials' ||
+  'wrong-password' ||
+  'user-not-found' => AuthFailureReason.invalidCredentials,
   'invalid-email' => AuthFailureReason.invalidEmail,
   'email-already-in-use' => AuthFailureReason.emailInUse,
   'weak-password' => AuthFailureReason.weakPassword,
@@ -18,33 +21,64 @@ AuthFailureReason mapAuthCode(String code) => switch(code) {
 class FirebaseAuthRepository implements AuthRepository {
   FirebaseAuthRepository(this.auth);
   final sdk.FirebaseAuth auth;
-  AuthUser? _user(sdk.User? value) => value == null ? null : AuthUser(value.uid,value.email ?? '',value.displayName);
+  AuthUser? _user(sdk.User? value) => value == null
+      ? null
+      : AuthUser(value.uid, value.email ?? '', value.displayName);
   @override
   AuthUser? get currentUser => _user(auth.currentUser);
   @override
   Stream<AuthUser?> authStateChanges() => auth.authStateChanges().map(_user);
   Future<T> _call<T>(Future<T> Function() operation) async {
-    try {return await operation();} on sdk.FirebaseAuthException catch(e){throw AuthException(mapAuthCode(e.code));}
-  }
-  AuthUser _result(sdk.UserCredential credential) => _user(credential.user) ?? (throw const AuthException(AuthFailureReason.unknown));
-  @override
-  Future<AuthUser> signIn(String email,String password) => _call(() async => _result(await auth.signInWithEmailAndPassword(email:email.trim(),password:password)));
-  @override
-  Future<AuthUser> register(String email,String password) => _call(() async => _result(await auth.createUserWithEmailAndPassword(email:email.trim(),password:password)));
-  @override
-  Future<void> sendPasswordResetEmail(String email) async {
-    try {await auth.sendPasswordResetEmail(email:email.trim());}
-    on sdk.FirebaseAuthException catch(e){
-      if(e.code!='user-not-found'){throw AuthException(mapAuthCode(e.code));}
+    try {
+      return await operation();
+    } on sdk.FirebaseAuthException catch (e) {
+      throw AuthException(mapAuthCode(e.code));
     }
   }
+
+  AuthUser _result(sdk.UserCredential credential) =>
+      _user(credential.user) ??
+      (throw const AuthException(AuthFailureReason.unknown));
+  @override
+  Future<AuthUser> signIn(String email, String password) => _call(
+    () async => _result(
+      await auth.signInWithEmailAndPassword(
+        email: email.trim(),
+        password: password,
+      ),
+    ),
+  );
+  @override
+  Future<AuthUser> register(String email, String password) => _call(
+    () async => _result(
+      await auth.createUserWithEmailAndPassword(
+        email: email.trim(),
+        password: password,
+      ),
+    ),
+  );
+  @override
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      await auth.sendPasswordResetEmail(email: email.trim());
+    } on sdk.FirebaseAuthException catch (e) {
+      if (e.code != 'user-not-found') {
+        throw AuthException(mapAuthCode(e.code));
+      }
+    }
+  }
+
   @override
   Future<AuthUser> updateDisplayName(String name) => _call(() async {
-    final user=auth.currentUser;
-    if(user==null)throw const AuthException(AuthFailureReason.invalidCredentials);
-    if(name.trim().isEmpty)throw const AuthException(AuthFailureReason.invalidName);
+    final user = auth.currentUser;
+    if (user == null) {
+      throw const AuthException(AuthFailureReason.invalidCredentials);
+    }
+    if (name.trim().isEmpty) {
+      throw const AuthException(AuthFailureReason.invalidName);
+    }
     await user.updateDisplayName(name.trim());
-    return AuthUser(user.uid,user.email ?? '',name.trim());
+    return AuthUser(user.uid, user.email ?? '', name.trim());
   });
   @override
   Future<void> signOut() => _call(auth.signOut);

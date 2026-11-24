@@ -20,7 +20,11 @@ import '../widgets/movement_tile.dart';
 import '../widgets/seed_color_sheet.dart';
 
 class WalletHomePage extends StatelessWidget {
-  const WalletHomePage({super.key, required this.firebaseStatus,required this.user});
+  const WalletHomePage({
+    super.key,
+    required this.firebaseStatus,
+    required this.user,
+  });
 
   final AuthUser user;
   final FirebaseStatus firebaseStatus;
@@ -28,7 +32,18 @@ class WalletHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
-      title:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[const Text('Wallet UNSAAC'), Text(user.label, maxLines:1,overflow:TextOverflow.ellipsis,style:Theme.of(context).textTheme.bodySmall)]),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('Wallet UNSAAC'),
+          Text(
+            user.label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        ],
+      ),
       actions: [
         AccountMenu(user),
         const _ThemeModeButton(),

@@ -33,11 +33,18 @@ class WalletApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      RepositoryProvider<AuthRepository>.value(value:authRepository,
-    child:MultiBlocProvider(providers:[
-      BlocProvider(create: (_) => ThemeCubit(preferences, initialMode)),
-      BlocProvider(lazy:false,create:(context)=>AuthBloc(context.read<AuthRepository>())..add(const AuthStarted())),
-    ],
+      RepositoryProvider<AuthRepository>.value(
+        value: authRepository,
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (_) => ThemeCubit(preferences, initialMode)),
+            BlocProvider(
+              lazy: false,
+              create: (context) =>
+                  AuthBloc(context.read<AuthRepository>())
+                    ..add(const AuthStarted()),
+            ),
+          ],
           child: BlocBuilder<ThemeCubit, ThemeState>(
             builder: (_, state) => MaterialApp(
               debugShowCheckedModeBanner: false,
@@ -45,12 +52,27 @@ class WalletApp extends StatelessWidget {
               theme: AppTheme.light(state.seedColor),
               darkTheme: AppTheme.dark(state.seedColor),
               themeMode: state.mode,
-              home: AuthGate(local: firebaseStatus==FirebaseStatus.notConfigured,wallet:(user)=>
-                RepositoryProvider<WalletRepository>(key:ValueKey(user.uid),create:(_)=>createWalletRepository(),
-                child:MultiBlocProvider(providers:[
-                  BlocProvider(create: (_) => PrivacyCubit()),
-                  BlocProvider(create:(ctx)=>MovementsBloc(ctx.read<WalletRepository>())..add(const MovementsStarted())),
-                ],child:WalletHomePage(firebaseStatus: firebaseStatus,user:user)))),
+              home: AuthGate(
+                local: firebaseStatus == FirebaseStatus.notConfigured,
+                wallet: (user) => RepositoryProvider<WalletRepository>(
+                  key: ValueKey(user.uid),
+                  create: (_) => createWalletRepository(),
+                  child: MultiBlocProvider(
+                    providers: [
+                      BlocProvider(create: (_) => PrivacyCubit()),
+                      BlocProvider(
+                        create: (ctx) =>
+                            MovementsBloc(ctx.read<WalletRepository>())
+                              ..add(const MovementsStarted()),
+                      ),
+                    ],
+                    child: WalletHomePage(
+                      firebaseStatus: firebaseStatus,
+                      user: user,
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
         ),
