@@ -24,6 +24,7 @@ final class AuthNameRequested extends AuthEvent {
   const AuthNameRequested(this.name);
   final String name;
 }
+final class AuthLoginPromptRequested extends AuthEvent {const AuthLoginPromptRequested();}
 final class AuthLogoutRequested extends AuthEvent {const AuthLogoutRequested();}
 sealed class AuthState extends Equatable {
   const AuthState();
@@ -52,7 +53,7 @@ class AuthBloc extends Bloc<AuthEvent,AuthState> {
       _watching=true;
       emit(const AuthLoading());
       await emit.forEach<AuthUser?>(repository.authStateChanges(),
-        onData:(user)=>user==null ? const AuthUnauthenticated() : AuthAuthenticated(user),
+        onData:_sessionChanged,
         onError:(_,_)=>_result(AuthFailureReason.network.message));
     });
     on<AuthLoginRequested>((e,emit)=>_run(emit,() => repository.signIn(e.email,e.password)));
@@ -69,9 +70,30 @@ class AuthBloc extends Bloc<AuthEvent,AuthState> {
       catch(_){if(!emit.isDone)emit(_result(AuthFailureReason.unknown.message));}
       finally{_busy=false;}
     });
-    on<AuthLogoutRequested>((_,emit)=>_run(emit,repository.signOut));
+    on<AuthLoginPromptRequested>((_,emit){
+      if(repository.currentUser==null)emit(const AuthUnauthenticated());
+    });
+    on<AuthLogoutRequested>((_,emit) async{
+      if(_busy || repository.currentUser==null)return;
+      _intentional=true;
+      await _run(emit,repository.signOut,success:signedOut);
+      if(repository.currentUser!=null)_intentional=false;
+    });
   }
   final AuthRepository repository;
+  static const expired='Tu sesión expiró.';
+  static const signedOut='Cerraste sesión.';
+  AuthUser? _observed;
+  bool _intentional=false;
+  AuthState _sessionChanged(AuthUser? user){
+    final previous=_observed;
+    _observed=user;
+    if(user!=null)return AuthAuthenticated(user);
+    if(previous==null && state is AuthUnauthenticated)return state;
+    final message=_intentional ? signedOut : (previous==null ? null : expired);
+    _intentional=false;
+    return AuthUnauthenticated(message);
+  }
   bool _watching=false, _busy=false;
   AuthState _result([String? message]){
     final user=repository.currentUser;

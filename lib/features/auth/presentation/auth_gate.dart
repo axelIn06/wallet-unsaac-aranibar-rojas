@@ -15,13 +15,15 @@ class AuthGate extends StatelessWidget {
       if(message!=null){
         final messenger=ScaffoldMessenger.of(context);
         messenger.clearSnackBars();
-        messenger.showSnackBar(SnackBar(content:Text(message)));
+        if(state is AuthUnauthenticated)Navigator.of(context).popUntil((route)=>route.isFirst);
+        messenger.showSnackBar(SnackBar(content:Text(message),action:message==AuthBloc.expired ? SnackBarAction(
+          label:'Volver a iniciar sesión',onPressed:()=>context.read<AuthBloc>().add(const AuthLoginPromptRequested())) : null));
       }
     },
     buildWhen:(previous,current)=>current is! AuthLoading,
     builder:(_,state)=>switch(state){
       AuthAuthenticated(:final user)=>wallet(user),
-      AuthUnauthenticated()=>AuthForm(local:local),
+      AuthUnauthenticated()=>AuthForm(key:ValueKey(state.message==AuthBloc.expired),local:local),
       _=>const Scaffold(body:Center(child:CircularProgressIndicator())),
     },
   );
