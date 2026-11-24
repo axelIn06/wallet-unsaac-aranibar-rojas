@@ -18,6 +18,7 @@ Future<void> main() async {
       initialMode: preferences.loadMode(),
       repository: InMemoryWalletRepository(
         failFirstLoad: evidenceMode,
+        failFirstAdd: const bool.fromEnvironment('DEMO_FALLO_ALTA'),
         latency: evidenceMode
             ? const Duration(seconds: 10)
             : const Duration(milliseconds: 650),

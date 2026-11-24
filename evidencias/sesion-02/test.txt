@@ -1,0 +1,38 @@
+00:00 +0: loading /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/balance_cubit_test.dart
+00:00 +0: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/balance_cubit_test.dart: Éxito emite carga y resultado
+00:00 +1: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/balance_cubit_test.dart: Una excepción emite carga y fallo
+00:00 +2: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/balance_cubit_test.dart: Reintentar vuelve al repositorio y recupera el saldo
+00:00 +3: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/balance_cubit_test.dart: Se ignora una segunda carga y un resultado posterior al cierre
+00:00 +4: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/movements_bloc_test.dart: Estado inicial antes de solicitar la carga
+00:00 +5: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/movements_bloc_test.dart: Carga el resumen de dos movimientos
+00:00 +6: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/movements_bloc_test.dart: Alta conserva lista durante el guardado y actualiza el saldo
+00:00 +7: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/movements_bloc_test.dart: Baja por identificador
+00:00 +8: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/movements_bloc_test.dart: Vaciar historial
+00:00 +9: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/movements_bloc_test.dart: Fallo inicial y recuperación
+00:00 +10: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/movements_bloc_test.dart: Baja inexistente suprime estado equivalente después de la carga
+00:00 +11: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/movements_bloc_test.dart: Editar conserva posición, id, cantidad y recalcula saldo
+00:00 +12: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/movements_bloc_test.dart: Alta duplicada mantiene los datos anteriores
+00:00 +13: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/movements_bloc_test.dart: Filtro all mantiene resumen y saldo
+00:00 +14: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/movements_bloc_test.dart: Filtro income mantiene resumen y saldo
+00:00 +15: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/movements_bloc_test.dart: Filtro expense mantiene resumen y saldo
+00:00 +16: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/movements_bloc_test.dart: Conserva el filtro al agregar
+00:00 +17: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/movements_bloc_test.dart: Alta y baja consecutivas conservan ambas escrituras
+00:00 +18: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/theme_test.dart: Un valor ausente o corrupto inicia en sistema
+00:00 +19: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/theme_test.dart: La preferencia guarda y recupera el modo
+00:00 +20: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/movements_state_test.dart: El movimiento compara todos sus campos
+00:00 +21: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/movements_state_test.dart: El movimiento compara todos sus campos
+00:00 +22: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/theme_test.dart: El primary se deriva de la semilla en claro y oscuro
+00:00 +23: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/theme_test.dart: El primary se deriva de la semilla en claro y oscuro
+00:00 +24: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/theme_test.dart: El primary se deriva de la semilla en claro y oscuro
+00:00 +25: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/theme_test.dart: El primary se deriva de la semilla en claro y oscuro
+00:00 +26: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/theme_test.dart: El primary se deriva de la semilla en claro y oscuro
+00:01 +27: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/wallet_widget_test.dart: La carga termina con saldo, totales y movimientos
+00:01 +28: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/wallet_widget_test.dart: La carga termina con saldo, totales y movimientos
+00:01 +29: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/wallet_widget_test.dart: La carga termina con saldo, totales y movimientos
+00:01 +30: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/wallet_widget_test.dart: La carga termina con saldo, totales y movimientos
+00:03 +31: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/wallet_widget_test.dart: El ojo enmascara los importes y los restaura sin recargar
+00:03 +32: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/wallet_widget_test.dart: El selector aplica el color y marca la opción en ambos modos
+00:05 +33: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/wallet_widget_test.dart: Reintentar desde el error recupera los movimientos
+00:05 +34: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/wallet_widget_test.dart: Un fallo de alta conserva lista y saldo hasta reintentar
+00:05 +35: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/wallet_widget_test.dart: Editar desde el menú actualiza el título y el saldo
+00:06 +36: All tests passed!

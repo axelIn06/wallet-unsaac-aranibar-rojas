@@ -36,7 +36,8 @@ class WalletApp extends StatelessWidget {
             BlocProvider(create: (_) => PrivacyCubit()),
             BlocProvider(
               create: (context) =>
-                  MovementsBloc(context.read<WalletRepository>())..add(const MovementsStarted()),
+                  MovementsBloc(context.read<WalletRepository>())
+                    ..add(const MovementsStarted()),
             ),
           ],
           child: BlocBuilder<ThemeCubit, ThemeState>(

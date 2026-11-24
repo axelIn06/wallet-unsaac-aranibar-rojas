@@ -7,7 +7,8 @@ import '../../domain/entities/movement.dart';
 class MovementTile extends StatelessWidget {
   const MovementTile({
     super.key,
-    required this.onEdit, required this.onDelete,
+    required this.onEdit,
+    required this.onDelete,
     required this.movement,
     required this.hideAmount,
   });
@@ -32,12 +33,23 @@ class MovementTile extends StatelessWidget {
       subtitle: Text(
         '${movement.category} · ${DateFormat('dd/MM/yyyy').format(movement.date)}',
       ),
-      trailing: Row(mainAxisSize: MainAxisSize.min, children:[Text(
-        hideAmount ? '••••' : '$sign${MoneyFormat.cents(movement.cents)}',
-        style: const TextStyle(fontWeight: FontWeight.w600),
-      ), PopupMenuButton<String>(tooltip: 'Acciones de ${movement.description}',
-        onSelected: (action) => action == 'edit' ? onEdit() : onDelete(),
-        itemBuilder: (_) => const [PopupMenuItem(value: 'edit',child:Text('Editar')), PopupMenuItem(value: 'delete',child:Text('Eliminar'))])]),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            hideAmount ? '••••' : '$sign${MoneyFormat.cents(movement.cents)}',
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ),
+          PopupMenuButton<String>(
+            tooltip: 'Acciones de ${movement.description}',
+            onSelected: (action) => action == 'edit' ? onEdit() : onDelete(),
+            itemBuilder: (_) => const [
+              PopupMenuItem(value: 'edit', child: Text('Editar')),
+              PopupMenuItem(value: 'delete', child: Text('Eliminar')),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,0 +1,17 @@
+00:00 +0: loading /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/balance_cubit_test.dart
+00:00 +0: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/theme_test.dart: Un valor ausente o corrupto inicia en sistema
+00:00 +1: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/privacy_cubit_test.dart: El estado inicial muestra importes
+00:00 +2: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/wallet_widget_test.dart: La carga termina con saldo, totales y movimientos
+00:00 +3: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/wallet_widget_test.dart: La carga termina con saldo, totales y movimientos
+00:00 +4: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/wallet_widget_test.dart: La carga termina con saldo, totales y movimientos
+00:00 +5: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/wallet_widget_test.dart: La carga termina con saldo, totales y movimientos
+00:00 +6: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/wallet_widget_test.dart: La carga termina con saldo, totales y movimientos
+00:00 +7: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/wallet_widget_test.dart: La carga termina con saldo, totales y movimientos
+00:00 +8: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/wallet_widget_test.dart: La carga termina con saldo, totales y movimientos
+00:00 +9: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/wallet_widget_test.dart: La carga termina con saldo, totales y movimientos
+00:00 +10: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/wallet_widget_test.dart: La carga termina con saldo, totales y movimientos
+00:00 +11: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/wallet_widget_test.dart: La carga termina con saldo, totales y movimientos
+00:00 +12: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/wallet_widget_test.dart: El ojo enmascara los importes y los restaura sin recargar
+00:01 +13: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/wallet_widget_test.dart: El selector aplica el color y marca la opción en ambos modos
+00:01 +14: /Users/axel/Documents/Semestre26-2/DS2/Guia2daUnidad/Guia2/Entrega_D1/wallet_unsaac/test/wallet_widget_test.dart: Reintentar desde el error recupera los movimientos
+00:01 +15: All tests passed!

@@ -37,7 +37,6 @@ final class MovementUpdated extends MovementsEvent {
   List<Object> get props => [movement];
 }
 
-
 final class MovementsFilterChanged extends MovementsEvent {
   const MovementsFilterChanged(this.filter);
   final MovementFilter filter;

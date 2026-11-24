@@ -9,7 +9,8 @@ import 'package:wallet_unsaac/features/wallet/domain/entities/wallet_summary.dar
 import 'package:wallet_unsaac/features/wallet/presentation/widgets/balance_card.dart';
 
 class _CountingRepository extends InMemoryWalletRepository {
-  _CountingRepository({super.failFirstLoad}) : super(latency: Duration.zero);
+  _CountingRepository({super.failFirstLoad, super.failFirstAdd})
+    : super(latency: Duration.zero);
 
   int calls = 0;
 
@@ -112,5 +113,45 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('S/ 1,274.60'), findsOneWidget);
     expect(repository.calls, 2);
+  });
+
+  testWidgets('Un fallo de alta conserva lista y saldo hasta reintentar', (
+    tester,
+  ) async {
+    final repository = _CountingRepository(failFirstAdd: true);
+    await _open(tester, repository);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Ingreso'));
+    await tester.pumpAndSettle();
+    expect(
+      find.widgetWithText(SnackBar, 'No se pudo registrar el movimiento.'),
+      findsOneWidget,
+    );
+    expect(find.text('Plan de internet'), findsOneWidget);
+    expect(find.text('S/ 1,274.60'), findsOneWidget);
+    await tester.tap(find.widgetWithText(SnackBarAction, 'Reintentar'));
+    await tester.pumpAndSettle();
+    expect(repository.calls, 2);
+    expect(find.text('Movimientos · 7'), findsOneWidget);
+  });
+  testWidgets('Editar desde el menú actualiza el título y el saldo', (
+    tester,
+  ) async {
+    await _open(tester, _CountingRepository());
+    await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip('Acciones de Plan de internet'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Editar'));
+    await tester.pumpAndSettle();
+    await tester.enterText(
+      find.byType(TextFormField).at(0),
+      'Internet corregido',
+    );
+    await tester.enterText(find.byType(TextFormField).at(1), '80,00');
+    await tester.tap(find.text('Guardar'));
+    await tester.pumpAndSettle();
+    expect(find.text('Internet corregido'), findsOneWidget);
+    expect(find.text('S/ 1,284.50'), findsOneWidget);
+    expect(find.text('Movimientos · 7'), findsOneWidget);
   });
 }
