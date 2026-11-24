@@ -36,5 +36,9 @@ class InMemoryAuthRepository implements AuthRepository {
     _accounts[key]=(user:user,password:password);_setUser(user);return user;
   }
   @override
+  Future<void> sendPasswordResetEmail(String email) async {
+    // Simulación en memoria: devuelve la misma respuesta para cualquier cuenta.
+  }
+  @override
   Future<void> signOut() async => _setUser(null);
 }

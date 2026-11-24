@@ -15,6 +15,11 @@ final class AuthRegisterRequested extends AuthEvent {
   const AuthRegisterRequested(this.email,this.password);
   final String email,password;
 }
+final class AuthPasswordResetRequested extends AuthEvent {
+  const AuthPasswordResetRequested(this.email);
+  final String email;
+  static const confirmation='Si el correo está registrado, recibirás instrucciones para recuperar tu contraseña.';
+}
 final class AuthLogoutRequested extends AuthEvent {const AuthLogoutRequested();}
 sealed class AuthState extends Equatable {
   const AuthState();
@@ -48,6 +53,7 @@ class AuthBloc extends Bloc<AuthEvent,AuthState> {
     });
     on<AuthLoginRequested>((e,emit)=>_run(emit,() => repository.signIn(e.email,e.password)));
     on<AuthRegisterRequested>((e,emit)=>_run(emit,()=>repository.register(e.email,e.password)));
+    on<AuthPasswordResetRequested>((e,emit)=>_run(emit,()=>repository.sendPasswordResetEmail(e.email),success:AuthPasswordResetRequested.confirmation));
     on<AuthLogoutRequested>((_,emit)=>_run(emit,repository.signOut));
   }
   final AuthRepository repository;

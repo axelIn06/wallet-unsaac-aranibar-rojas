@@ -1,3 +1,6 @@
+import 'features/auth/domain/auth_repository.dart';
+import 'features/auth/presentation/auth_bloc.dart';
+import 'features/auth/presentation/auth_gate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,28 +21,23 @@ class WalletApp extends StatelessWidget {
     required this.firebaseStatus,
     required this.preferences,
     required this.initialMode,
-    required this.repository,
+    required this.createWalletRepository,
+    required this.authRepository,
   });
 
   final FirebaseStatus firebaseStatus;
   final ThemePreferences preferences;
   final ThemeMode initialMode;
-  final WalletRepository repository;
+  final WalletRepository Function() createWalletRepository;
+  final AuthRepository authRepository;
 
   @override
   Widget build(BuildContext context) =>
-      RepositoryProvider<WalletRepository>.value(
-        value: repository,
-        child: MultiBlocProvider(
-          providers: [
-            BlocProvider(create: (_) => ThemeCubit(preferences, initialMode)),
-            BlocProvider(create: (_) => PrivacyCubit()),
-            BlocProvider(
-              create: (context) =>
-                  MovementsBloc(context.read<WalletRepository>())
-                    ..add(const MovementsStarted()),
-            ),
-          ],
+      RepositoryProvider<AuthRepository>.value(value:authRepository,
+    child:MultiBlocProvider(providers:[
+      BlocProvider(create: (_) => ThemeCubit(preferences, initialMode)),
+      BlocProvider(lazy:false,create:(context)=>AuthBloc(context.read<AuthRepository>())..add(const AuthStarted())),
+    ],
           child: BlocBuilder<ThemeCubit, ThemeState>(
             builder: (_, state) => MaterialApp(
               debugShowCheckedModeBanner: false,
@@ -47,7 +45,12 @@ class WalletApp extends StatelessWidget {
               theme: AppTheme.light(state.seedColor),
               darkTheme: AppTheme.dark(state.seedColor),
               themeMode: state.mode,
-              home: WalletHomePage(firebaseStatus: firebaseStatus),
+              home: AuthGate(local: firebaseStatus==FirebaseStatus.notConfigured,wallet:(user)=>
+                RepositoryProvider<WalletRepository>(key:ValueKey(user.uid),create:(_)=>createWalletRepository(),
+                child:MultiBlocProvider(providers:[
+                  BlocProvider(create: (_) => PrivacyCubit()),
+                  BlocProvider(create:(ctx)=>MovementsBloc(ctx.read<WalletRepository>())..add(const MovementsStarted())),
+                ],child:WalletHomePage(firebaseStatus: firebaseStatus)))),
             ),
           ),
         ),

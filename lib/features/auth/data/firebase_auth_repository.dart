@@ -32,5 +32,12 @@ class FirebaseAuthRepository implements AuthRepository {
   @override
   Future<AuthUser> register(String email,String password) => _call(() async => _result(await auth.createUserWithEmailAndPassword(email:email.trim(),password:password)));
   @override
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {await auth.sendPasswordResetEmail(email:email.trim());}
+    on sdk.FirebaseAuthException catch(e){
+      if(e.code!='user-not-found'){throw AuthException(mapAuthCode(e.code));}
+    }
+  }
+  @override
   Future<void> signOut() => _call(auth.signOut);
 }

@@ -1,3 +1,4 @@
+import 'package:wallet_unsaac/features/auth/data/in_memory_auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,12 +25,15 @@ class _CountingRepository extends InMemoryWalletRepository {
 Future<void> _open(WidgetTester tester, _CountingRepository repository) async {
   SharedPreferences.setMockInitialValues({});
   final preferences = ThemePreferences(await SharedPreferences.getInstance());
+  final auth=InMemoryAuthRepository();
+  await auth.signIn(InMemoryAuthRepository.demoEmail,InMemoryAuthRepository.demoPassword);
   await tester.pumpWidget(
     WalletApp(
       firebaseStatus: FirebaseStatus.notConfigured,
       preferences: preferences,
       initialMode: ThemeMode.light,
-      repository: repository,
+      createWalletRepository: () => repository,
+      authRepository:auth,
     ),
   );
 }

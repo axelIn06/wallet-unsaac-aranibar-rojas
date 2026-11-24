@@ -5,5 +5,6 @@ abstract interface class AuthRepository {
   Stream<AuthUser?> authStateChanges();
   Future<AuthUser> signIn(String email, String password);
   Future<AuthUser> register(String email, String password);
+  Future<void> sendPasswordResetEmail(String email);
   Future<void> signOut();
 }
