@@ -25,15 +25,18 @@ class _CountingRepository extends InMemoryWalletRepository {
 Future<void> _open(WidgetTester tester, _CountingRepository repository) async {
   SharedPreferences.setMockInitialValues({});
   final preferences = ThemePreferences(await SharedPreferences.getInstance());
-  final auth=InMemoryAuthRepository();
-  await auth.signIn(InMemoryAuthRepository.demoEmail,InMemoryAuthRepository.demoPassword);
+  final auth = InMemoryAuthRepository();
+  await auth.signIn(
+    InMemoryAuthRepository.demoEmail,
+    InMemoryAuthRepository.demoPassword,
+  );
   await tester.pumpWidget(
     WalletApp(
       firebaseStatus: FirebaseStatus.notConfigured,
       preferences: preferences,
       initialMode: ThemeMode.light,
       createWalletRepository: () => repository,
-      authRepository:auth,
+      authRepository: auth,
     ),
   );
 }
