@@ -12,6 +12,8 @@ class MovementsBloc extends Bloc<MovementsEvent, MovementsState> {
     }));
     on<MovementAdded>((event, emit) => _enqueue(() => _apply(emit,
         () => repository.addMovement(event.movement), 'registrar el movimiento')));
+    on<MovementUpdated>((event, emit) => _enqueue(() => _apply(emit,
+        () => repository.updateMovement(event.movement), 'editar el movimiento')));
     on<MovementRemoved>((event, emit) => _enqueue(() => _apply(emit,
         () => repository.removeMovement(event.id), 'eliminar el movimiento')));
     on<MovementsCleared>((event, emit) => _enqueue(() => _apply(emit,

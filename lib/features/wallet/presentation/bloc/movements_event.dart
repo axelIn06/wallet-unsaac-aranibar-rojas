@@ -28,3 +28,11 @@ final class MovementRemoved extends MovementsEvent {
 final class MovementsCleared extends MovementsEvent {
   const MovementsCleared();
 }
+
+final class MovementUpdated extends MovementsEvent {
+  const MovementUpdated(this.movement);
+  final Movement movement;
+  @override
+  List<Object> get props => [movement];
+}
+

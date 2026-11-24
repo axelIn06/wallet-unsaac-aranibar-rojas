@@ -19,6 +19,10 @@ class Movement extends Equatable {
   final int cents;
   final MovementType type;
 
+  Movement copyWith({String? description, String? category, DateTime? date,
+      int? cents, MovementType? type}) => Movement(id, description ?? this.description,
+      category ?? this.category, date ?? this.date, cents ?? this.cents, type ?? this.type);
+
   @override
   List<Object> get props => [id, description, category, date, cents, type];
 }

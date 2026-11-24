@@ -44,6 +44,14 @@ class InMemoryWalletRepository implements WalletRepository {
     _items.clear();
     return WalletSummary(_items);
   }
+  @override
+  Future<WalletSummary> updateMovement(Movement movement) async {
+    await Future<void>.delayed(latency);
+    final index = _items.indexWhere((item) => item.id == movement.id);
+    if (index < 0) throw StateError('Movimiento inexistente');
+    _items[index] = movement;
+    return WalletSummary(_items);
+  }
   static final _demo = [
 
       Movement(
