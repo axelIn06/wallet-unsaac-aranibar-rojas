@@ -64,3 +64,7 @@ Si no aparece un dispositivo, revisar `flutter devices` y el SDK con `flutter do
 ## Fuentes y uso de IA
 
 Guía de aplicación y material teórico de la sesión 2 de Desarrollo de Software II, UNSAAC (2026), y documentación oficial de Firebase enlazada arriba. OpenAI Codex participó en la implementación, redacción y verificación con Flutter, Android y LaTeX. La revisión personal, la firma y la presentación corresponden al estudiante.
+
+## Informe de entrega
+
+El PDF, su fuente LaTeX y las capturas están en [informe/](informe/). Para recompilar desde esa carpeta, ejecutar `pdflatex D1_AranibarRojas_AxelBarnaby_IF616BIN.tex` dos veces.
