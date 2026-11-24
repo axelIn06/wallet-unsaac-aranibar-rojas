@@ -1,0 +1,12 @@
+Launching lib/main.dart on sdk gphone64 arm64 in debug mode...
+Running Gradle task 'assembleDebug'...                              4.9s
+✓ Built build/app/outputs/flutter-apk/app-debug.apk
+Installing build/app/outputs/flutter-apk/app-debug.apk...          997ms
+D/FlutterJNI( 6951): Beginning load of flutter...
+D/FlutterJNI( 6951): flutter (null) was loaded normally!
+I/flutter ( 6951): [IMPORTANT:flutter/shell/platform/android/android_context_gl_impeller.cc(104)] Using the Impeller rendering backend (OpenGLES).
+D/FlutterRenderer( 6951): Width is zero. 0,0
+D/FlutterRenderer( 6951): Width is zero. 0,0
+D/FlutterRenderer( 6951): Width is zero. 0,0
+D/FlutterJNI( 6951): Sending viewport metrics to the engine.
+Syncing files to device sdk gphone64 arm64...                       25ms

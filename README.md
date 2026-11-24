@@ -1,70 +1,97 @@
-# Wallet UNSAAC · Unidad II, sesión 2
+# Wallet UNSAAC · Sesión 3
 
-Entregable D1 de Axel Barnaby Aranibar Rojas (220547). Billetera Android con movimientos en memoria, estados inmutables y pruebas unitarias y de interfaz. El saldo, los ingresos y los egresos se calculan en céntimos. Al cerrar el proceso se recupera la semilla de demostración. El modo de tema sí se conserva.
+**Avance de D2.** Registro, acceso, cierre y restauración de sesión con Firebase Authentication, más recuperación de contraseña, edición del nombre y expiración. La billetera conserva las funciones de la sesión 2. Autor del entregable: Axel Barnaby Aranibar Rojas, código 220547. [Informe de la sesión 3 y capturas](informe/sesion-03/).
 
-## Ejecutar desde cero
+## Ejecutar en Android Studio
 
-Requisitos verificados: Flutter 3.41.6 estable, Dart 3.11.4 y un SDK Android con JDK compatible con Gradle. Para ejecutar la app, iniciar un emulador Android o conectar un teléfono con depuración USB. Trabajar sobre la rama local `sesion-02` o su integración en `main`.
+Abrir la carpeta que contiene este README y arrancar un AVD Android. El equipo de verificación utilizó Flutter 3.41.6, Dart 3.11.4 y Medium Phone API 36.1. El archivo de bloqueo fija firebase_auth 7.0.1 y firebase_core 5.1.0. Desde la terminal del proyecto:
 
 ```sh
-flutter doctor -v
 flutter pub get
 flutter analyze
 flutter test
 flutter devices
-flutter run -d ID_DEL_DISPOSITIVO
 ```
 
-La semilla trae siete movimientos y S/ 1,274.60 de saldo. Ingreso y Egreso crean operaciones de S/ 10.00. El menú de cada fila permite editar o eliminar. El icono de vaciar pide confirmación. Para observar un error recuperable de alta de forma determinista, ejecutar `flutter run --dart-define=DEMO_FALLO_ALTA=true` y pulsar Ingreso. Reintentar recarga los datos y permite registrar después la operación. Para probar un fallo de carga inicial, usar `--dart-define=DEMO_ERROR=true`.
+### Con el SDK y Firebase Authentication Emulator
 
-## Firebase para Android
+Este es el entorno utilizado para las evidencias en Android. Instalar la CLI oficial con `npm install -g firebase-tools` si aún no está disponible. Abrir dos terminales en la raíz del proyecto:
 
-D1 funciona sin cuenta Google. El código incluye `firebase_core`, una plantilla pública en `lib/firebase_options.dart` y una inicialización que distingue tres estados. Con los marcadores de la plantilla, la tarjeta inferior indica «Firebase: no configurado». Si hay opciones reales, el arranque espera a `Firebase.initializeApp(options: ...)` y muestra el resultado. El repositorio de movimientos sigue en memoria.
+```sh
+# Terminal 1
+firebase emulators:start --only auth --project demo-wallet-unsaac
+```
 
-Para vincular un proyecto real antes de la sesión 3:
+```sh
+# Terminal 2, con el AVD en ejecución
+flutter run -d emulator-5554 --dart-define=AUTH_EMULATOR=true
+```
 
-1. Instalar Firebase CLI (por ejemplo, `npm install -g firebase-tools`). Ejecutar `firebase login` y autorizar el acceso desde el navegador con la cuenta del curso.
-2. Ejecutar `firebase projects:list` y comprobar el identificador del proyecto que corresponde a la práctica.
-3. Ejecutar `dart pub global activate flutterfire_cli`. Desde esta carpeta, ejecutar `dart pub global run flutterfire_cli:flutterfire configure --project=ID_DEL_PROYECTO --platforms=android`. Aceptar la generación local de opciones. El identificador de aplicación Android es `pe.edu.unsaac.wallet_unsaac`.
-4. Reconstruir con `flutter run`, bajar al final de la lista y verificar «Firebase: conectado». Comprobar en la consola de Firebase que la aplicación Android registrada coincide con ese paquete. Esta comprobación acredita la inicialización del SDK. El ejercicio no usa Firestore.
-5. Conservar en Git la plantilla pública. Revisar `git diff -- lib/firebase_options.dart` antes de preparar un commit y excluir del commit las opciones específicas generadas. El archivo google-services.json, las cuentas de servicio y las claves de firma están excluidos por .gitignore.
+Crear una cuenta ficticia desde **Registrarme**. El servidor de pruebas queda en el puerto 9099 de la máquina y el SDK de Android accede mediante 10.0.2.2. La excepción de tráfico HTTP se limita a esa dirección y a compilaciones de depuración. La modalidad emulada utiliza el proveedor de correo/contraseña del SDK; las solicitudes de recuperación quedan en el emulador. Para comprobar la persistencia, mantener el servidor encendido, cerrar el proceso Android y abrir la app desde el lanzador. El SDK restaura el usuario. Reiniciar el servidor sin exportar sus datos elimina las cuentas de prueba.
 
-Referencia: [configuración oficial de Firebase para Flutter](https://firebase.google.com/docs/flutter/setup).
+### Demostración solo en memoria
 
-## Arquitectura y decisiones
+`flutter run` con la plantilla de opciones vacía abre el modo de práctica. Se puede registrar una cuenta temporal o usar la cuenta **ficticia pública de la guía**, `estudiante@unsaac.edu.pe` / `wallet123`. Las cuentas y la sesión desaparecen al terminar el proceso; la recuperación devuelve el mensaje genérico. Los datos introducidos no se escriben en disco. Usar únicamente datos de demostración en esta modalidad.
 
-| Carpeta bajo lib/ | Responsabilidad |
+### Con un proyecto personal de Firebase
+
+1. Iniciar sesión en Firebase CLI con `firebase login`. Identificar el proyecto del curso con `firebase projects:list`.
+2. En Firebase Console → Authentication → Sign-in method, habilitar **Correo electrónico/contraseña** y guardar. El repositorio incluye la configuración del emulador. La habilitación en un proyecto personal queda a cargo de su titular.
+3. Ejecutar `dart pub global activate flutterfire_cli` y luego `dart pub global run flutterfire_cli:flutterfire configure --project=ID_DEL_PROYECTO --platforms=android`. Verificar el paquete `pe.edu.unsaac.wallet_unsaac`. Las opciones de FlutterFire se generan localmente en `lib/firebase_options.dart`.
+4. Ejecutar `flutter run` sin la variable del emulador. Registrar una cuenta de prueba y verificarla en **Authentication → Users**. La aplicación solo muestra «Práctica en memoria» cuando usa el repositorio local.
+5. Conservar la plantilla pública en el repositorio. Revisar el diff antes de publicar opciones de un proyecto personal. Los archivos de servicio, claves de firma y google-services.json están excluidos.
+
+[Documentación oficial de FlutterFire](https://firebase.google.com/docs/flutter/setup) · [Authentication en Flutter](https://firebase.google.com/docs/auth/flutter/start).
+
+## Flujo de sesión
+
+| Capa | Responsabilidad |
 |---|---|
-| core/config y core/theme | Inicialización de Firebase, preferencias y tema |
-| features/wallet/domain | Entidades por valor, sumas en céntimos y contrato del repositorio |
-| features/wallet/data | Lista privada en memoria y copias inmutables de los resúmenes |
-| features/wallet/presentation/bloc | Eventos de carga, alta, edición, baja, limpieza y filtro |
-| features/wallet/presentation/pages y widgets | Formulario, selectores, vista de carga, aviso de error y reintento |
+| `lib/features/auth/domain/` | AuthUser con igualdad por valor, contrato AuthRepository, motivos y mensajes de error |
+| `lib/features/auth/data/` | Adaptador de Firebase y repositorio de simulación; traducción de errores |
+| `lib/features/auth/presentation/` | AuthBloc, estados y eventos, AuthGate, formulario compartido, validadores y menú de cuenta |
+| `lib/app.dart` | Inyección de repositorios y creación de una billetera en memoria por sesión autenticada |
+| `lib/main.dart` | Selección de SDK emulado, SDK con opciones reales o simulación local |
 
-WalletApp inyecta WalletRepository por encima de MovementsBloc. La pantalla envía eventos. El dominio no importa Flutter. La cola del bloc conserva el orden de las escrituras. Cada operación devuelve el resumen actualizado. Los Cubit de tema y privacidad conservan su función de presentación.
+AuthStarted escucha authStateChanges, incluida la emisión inicial. AuthGate mantiene el formulario mientras una operación espera respuesta. El botón se deshabilita durante el envío. Al recibir una identidad, la app monta la billetera. La confirmación «Salir» provoca el cierre voluntario. Al volver del segundo plano, se recarga el usuario del SDK. Una identidad inválida o deshabilitada sale de la billetera. Un error de red conserva al usuario y muestra el motivo.
 
-- **Edición.** El formulario acepta soles con punto o coma, valida el importe y envía MovementUpdated. El repositorio reemplaza la fila por ID en su índice.
-- **Guardado.** Ready.copyWith activa isSaving durante el alta. La lista previa sigue visible y el indicador lineal desaparece al resolver la escritura.
-- **Error.** Failure lleva un mensaje y el último Ready cuando existe. El listener de BlocConsumer muestra un SnackBar. Reintentar envía MovementsStarted. Una recarga nunca repite una escritura fallida.
-- **Filtro.** Ready mantiene all, income o expense. La tarjeta selecciona solo el resumen y la lista selecciona los datos y el filtro. El total sigue incluyendo movimientos de ambos tipos.
+**Reto 1.** Recuperar utiliza la misma confirmación para direcciones existentes y ausentes. Firebase gestiona el envío. Un fallo operativo de red permite reintentar.
+**Reto 2.** El nombre se recorta y se rechaza si queda vacío. La cuenta conserva su UID y correo. El encabezado usa el nombre y una inicial.
+**Reto 3.** Se distingue el cierre solicitado de la pérdida externa de la sesión. El aviso por expiración incluye «Volver a iniciar sesión». El SDK administra los tokens. Los estados de presentación contienen únicamente la identidad y un mensaje opcional.
 
-## Verificación
+## Mensajes por código del SDK
 
-La base de la sesión 1 aprobó 15 pruebas. D1 pasa 36. El análisis estático quedó sin observaciones y `flutter build apk --debug` generó el APK. Las salidas están en `evidencias/sesion-02/`. Las evidencias del directorio superior de evidencias corresponden a la sesión 1.
-
-| Archivo de prueba | Comportamiento comprobado |
+| Código | Respuesta de la aplicación |
 |---|---|
-| movements_bloc_test.dart | 14 casos: inicial, carga, alta y guardado, baja, limpieza, error y recuperación, supresión, edición, duplicado, tres filtros, conservación del filtro y escrituras consecutivas |
-| movements_state_test.dart | 5 casos de igualdad de estados, eventos y entidades, y protección de la lista |
-| wallet_widget_test.dart | 6 recorridos de interfaz, incluidos edición desde el menú y fallo de alta con reintento |
-| balance_cubit_test.dart, privacy_cubit_test.dart, theme_test.dart | 11 pruebas heredadas del saldo, la privacidad y el tema |
+| wrong-password, invalid-credential, invalid-login-credentials, user-not-found en acceso | Correo o contraseña incorrectos. |
+| invalid-email | Ingresa un correo válido. |
+| weak-password | Usa al menos 6 caracteres. |
+| email-already-in-use al registrar | El correo ya está registrado. |
+| user-disabled en acceso | La cuenta está deshabilitada. |
+| network-request-failed | Revisa tu conexión e inténtalo de nuevo. |
+| too-many-requests | Demasiados intentos. Inténtalo más tarde. |
+| operation-not-allowed | El proveedor de acceso no está habilitado. |
+| Otros códigos | No se pudo completar la operación. |
 
-Si no aparece un dispositivo, revisar `flutter devices` y el SDK con `flutter doctor -v`. Si Firebase indica error, comprobar el ID de proyecto, el paquete Android y repetir la configuración seguida de un arranque completo. Para instalar dependencias sin red se puede usar `flutter pub get --offline` si ya están en la caché.
+## Pruebas y lista de verificación de D2 parcial
 
-## Fuentes y uso de IA
+| Grupo | Evidencia |
+|---|---|
+| 17 pruebas de AuthBloc | Estado inicial, restauración, registro, acceso, credenciales inválidas, recuperación, nombre, cierre normal/fallido, expiración y reanudación sin red |
+| 13 de validación y traducción | Formato, mínimo de seis caracteres, confirmación, códigos conocidos y desconocidos |
+| 5 de widgets de autenticación | Formularios, errores, registro, acceso, recuperación y acción tras expiración |
+| 36 heredadas | Billetera, movimientos, filtros, tema y privacidad, con usuario inyectado en las pruebas de interfaz |
 
-Guía de aplicación y material teórico de la sesión 2 de Desarrollo de Software II, UNSAAC (2026), y documentación oficial de Firebase enlazada arriba. OpenAI Codex participó en la implementación, redacción y verificación con Flutter, Android y LaTeX. La revisión personal, la firma y la presentación corresponden al estudiante.
+- [x] Registro, acceso y cierre con el SDK de Android y Authentication Emulator.
+- [x] Persistencia después del cierre completo del proceso Android.
+- [x] AuthGate muestra la pantalla apropiada y los errores están traducidos.
+- [x] Tres retos implementados con pruebas y capturas.
+- [x] Análisis sin observaciones y 71 pruebas aprobadas.
+- [x] README con configuración y sin credenciales privadas versionadas.
+- [ ] Activación y prueba en un proyecto de Firebase Console del estudiante, si se requiere validar en la nube.
 
-## Informe de entrega
+[Resultados de la sesión 3](evidencias/sesion-03/) · [Informe anterior D1](informe/D1_AranibarRojas_AxelBarnaby_IF616BIN.pdf). La navegación con GoRouter y las cinco pruebas de rutas corresponden a la sesión 4.
 
-El PDF, su fuente LaTeX y las capturas están en [informe/](informe/). Para recompilar desde esa carpeta, ejecutar `pdflatex D1_AranibarRojas_AxelBarnaby_IF616BIN.tex` dos veces.
+Se utilizó OpenAI Codex para implementar, probar y documentar la práctica. La declaración de IA y el espacio de firma están en el informe.
+
+Para recompilar el informe desde `informe/sesion-03/`, ejecutar dos veces `pdflatex D2_Parcial_AranibarRojas_AxelBarnaby_IF616BIN.tex`. La carpeta contiene todas las imágenes necesarias.

@@ -1,0 +1,7 @@
+Registro Email/Password: billetera visible.
+Perfil: mismo UID y nombre Axel en Authentication Emulator.
+Reinicio completo del proceso: identidad y billetera restauradas sin ingresar credenciales.
+Cierre confirmado: pantalla de acceso visible.
+Recuperación: solicitud PASSWORD_RESET emitida en el servidor de pruebas.
+Acceso posterior: correo y contraseña aceptados por Firebase Authentication Emulator.
+Al reanudar tras deshabilitar la cuenta de prueba, el SDK cerró la sesión y AuthGate volvió al acceso.

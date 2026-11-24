@@ -1,0 +1,81 @@
+00:00 +0: loading test/balance_cubit_test.dart
+00:00 +0: test/balance_cubit_test.dart: Éxito emite carga y resultado
+00:00 +1: test/balance_cubit_test.dart: Una excepción emite carga y fallo
+00:00 +2: test/balance_cubit_test.dart: Reintentar vuelve al repositorio y recupera el saldo
+00:00 +3: test/balance_cubit_test.dart: Se ignora una segunda carga y un resultado posterior al cierre
+00:00 +4: loading test/movements_bloc_test.dart
+00:00 +4: test/movements_bloc_test.dart: Estado inicial antes de solicitar la carga
+00:00 +5: test/movements_bloc_test.dart: Carga el resumen de dos movimientos
+00:00 +6: test/movements_bloc_test.dart: Alta conserva lista durante el guardado y actualiza el saldo
+00:00 +7: test/movements_bloc_test.dart: Baja por identificador
+00:00 +8: test/movements_bloc_test.dart: Vaciar historial
+00:00 +9: test/movements_bloc_test.dart: Fallo inicial y recuperación
+00:00 +10: test/movements_bloc_test.dart: Baja inexistente suprime estado equivalente después de la carga
+00:00 +11: test/movements_bloc_test.dart: Editar conserva posición, id, cantidad y recalcula saldo
+00:00 +12: test/movements_bloc_test.dart: Alta duplicada mantiene los datos anteriores
+00:00 +13: test/movements_bloc_test.dart: Filtro all mantiene resumen y saldo
+00:00 +14: test/movements_bloc_test.dart: Filtro income mantiene resumen y saldo
+00:00 +15: test/movements_bloc_test.dart: Filtro expense mantiene resumen y saldo
+00:00 +16: test/movements_bloc_test.dart: Conserva el filtro al agregar
+00:00 +17: test/movements_bloc_test.dart: Alta y baja consecutivas conservan ambas escrituras
+00:00 +18: loading test/theme_test.dart
+00:00 +18: test/theme_test.dart: Un valor ausente o corrupto inicia en sistema
+00:00 +19: test/theme_test.dart: La preferencia guarda y recupera el modo
+00:00 +20: test/theme_test.dart: El Cubit recorre el ciclo y persiste cada cambio
+00:00 +21: test/theme_test.dart: El primary se deriva de la semilla en claro y oscuro
+00:00 +22: loading test/auth/auth_bloc_test.dart
+00:00 +22: test/auth/auth_bloc_test.dart: El estado inicial espera al observador
+00:00 +23: test/auth/auth_bloc_test.dart: Un stream sin usuario conduce al acceso
+00:00 +24: test/auth/auth_bloc_test.dart: Restaura la identidad inicial del stream
+00:00 +25: test/auth/auth_bloc_test.dart: Acceso correcto emite carga y billetera
+00:00 +26: test/auth/auth_bloc_test.dart: Credenciales inválidas producen un mensaje genérico
+00:00 +27: test/auth/auth_bloc_test.dart: Registro nuevo autentica y normaliza el correo
+00:00 +28: test/auth/auth_bloc_test.dart: Registro duplicado informa el conflicto
+00:00 +29: test/auth/auth_bloc_test.dart: Recuperación genérica para estudiante@unsaac.edu.pe
+00:00 +30: test/auth/auth_bloc_test.dart: Recuperación genérica para ausente@example.test
+00:00 +31: test/auth/auth_bloc_test.dart: Recuperación con fallo de red informa el error
+00:00 +32: test/auth/auth_bloc_test.dart: Actualiza nombre por valor y conserva uid
+00:00 +33: test/auth/auth_bloc_test.dart: Un nombre vacío mantiene el perfil
+00:00 +34: test/auth/auth_bloc_test.dart: Cierre voluntario muestra su propio mensaje
+00:00 +35: test/auth/auth_bloc_test.dart: Cierre fallido conserva usuario y mensaje
+00:00 +36: test/auth/auth_bloc_test.dart: Pérdida externa de identidad se distingue del cierre
+00:00 +37: test/auth/auth_bloc_test.dart: Al reanudar, una sesión inválida vuelve al acceso
+00:00 +38: test/auth/auth_bloc_test.dart: Al reanudar sin conexión se conserva la identidad
+00:00 +39: loading test/auth/auth_validation_test.dart
+00:01 +39: test/auth/auth_validation_test.dart: Correo vacío o sin dominio válido se rechaza
+00:01 +40: test/auth/auth_validation_test.dart: Mínimo de seis caracteres y confirmación exacta
+00:01 +41: test/auth/auth_validation_test.dart: Traduce wrong-password
+00:01 +42: test/auth/auth_validation_test.dart: Traduce user-not-found
+00:01 +43: test/auth/auth_validation_test.dart: Traduce invalid-credential
+00:01 +44: test/auth/auth_validation_test.dart: Traduce invalid-email
+00:01 +45: test/auth/auth_validation_test.dart: Traduce email-already-in-use
+00:01 +46: test/auth/auth_validation_test.dart: Traduce weak-password
+00:01 +47: test/auth/auth_validation_test.dart: Traduce user-disabled
+00:01 +48: test/auth/auth_validation_test.dart: Traduce too-many-requests
+00:01 +49: test/auth/auth_validation_test.dart: Traduce network-request-failed
+00:01 +50: test/auth/auth_validation_test.dart: Traduce operation-not-allowed
+00:01 +51: test/auth/auth_validation_test.dart: Traduce unexpected-code
+00:01 +52: loading test/auth/auth_widget_test.dart
+00:01 +52: test/auth/auth_widget_test.dart: Formulario vacío conserva acceso y explica ambos campos
+00:01 +53: test/auth/auth_widget_test.dart: Acceso inválido conserva los campos y muestra mensaje
+00:02 +54: test/auth/auth_widget_test.dart: Acceso, expiración y acción de retorno
+00:02 +55: test/auth/auth_widget_test.dart: Registro exige confirmación y abre la billetera
+00:02 +56: test/auth/auth_widget_test.dart: Recuperar desde el enlace muestra confirmación genérica
+00:02 +57: loading test/movements_state_test.dart
+00:02 +57: test/movements_state_test.dart: El movimiento compara todos sus campos
+00:02 +58: test/movements_state_test.dart: El resumen copia la lista y protege su contenido
+00:02 +59: test/movements_state_test.dart: Ready distingue guardado y filtro
+00:02 +60: test/movements_state_test.dart: El fallo compara su mensaje y su contexto
+00:02 +61: test/movements_state_test.dart: Los eventos distinguen intención y carga útil
+00:02 +62: loading test/wallet_widget_test.dart
+00:03 +62: test/wallet_widget_test.dart: La carga termina con saldo, totales y movimientos
+00:03 +63: test/wallet_widget_test.dart: El ojo enmascara los importes y los restaura sin recargar
+00:03 +64: test/wallet_widget_test.dart: El selector aplica el color y marca la opción en ambos modos
+00:03 +65: test/wallet_widget_test.dart: Reintentar desde el error recupera los movimientos
+00:03 +66: test/wallet_widget_test.dart: Un fallo de alta conserva lista y saldo hasta reintentar
+00:04 +67: test/wallet_widget_test.dart: Editar desde el menú actualiza el título y el saldo
+00:04 +68: loading test/privacy_cubit_test.dart
+00:04 +68: test/privacy_cubit_test.dart: El estado inicial muestra importes
+00:04 +69: test/privacy_cubit_test.dart: El primer toque oculta los importes
+00:04 +70: test/privacy_cubit_test.dart: El segundo toque restaura la visibilidad
+00:04 +71: All tests passed!
