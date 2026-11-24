@@ -61,6 +61,7 @@ class _WalletContent extends StatelessWidget {
     final summary = state.summary;
     return ListView(padding: const EdgeInsets.fromLTRB(12,4,12,20), children: [
       BalanceCard(summary: summary, hideBalance: hide, onToggle: context.read<PrivacyCubit>().toggle),
+      if (state.isSaving) const LinearProgressIndicator(semanticsLabel:'Guardando'),
       Wrap(alignment: WrapAlignment.spaceBetween, children: [
         for (final type in MovementType.values)
           TextButton.icon(icon: Icon(type == MovementType.income ? Icons.add : Icons.remove),

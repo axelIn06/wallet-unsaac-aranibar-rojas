@@ -11,7 +11,7 @@ class MovementsBloc extends Bloc<MovementsEvent, MovementsState> {
       await _apply(emit, repository.fetchSummary, 'cargar los movimientos');
     }));
     on<MovementAdded>((event, emit) => _enqueue(() => _apply(emit,
-        () => repository.addMovement(event.movement), 'registrar el movimiento')));
+        () => repository.addMovement(event.movement), 'registrar el movimiento', saving: true)));
     on<MovementUpdated>((event, emit) => _enqueue(() => _apply(emit,
         () => repository.updateMovement(event.movement), 'editar el movimiento')));
     on<MovementRemoved>((event, emit) => _enqueue(() => _apply(emit,
@@ -26,7 +26,9 @@ class MovementsBloc extends Bloc<MovementsEvent, MovementsState> {
       _pending = _pending.then((_) => action());
 
   Future<void> _apply(Emitter<MovementsState> emit,
-      Future<WalletSummary> Function() action, String operation) async {
+      Future<WalletSummary> Function() action, String operation, {bool saving = false}) async {
+    final previous = state;
+    if (saving && previous is MovementsReady) emit(previous.copyWith(isSaving:true));
     try {
       final summary = await action();
       if (!emit.isDone) emit(MovementsReady(summary));
